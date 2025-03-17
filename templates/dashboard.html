@@ -1,0 +1,67 @@
+{% extends "base.html" %} {% block title %}Dashboard{% endblock %} {% block
+content %}
+<div class="container">
+  <h2 class="mt-5">Dashboard</h2>
+  <h4>Book an Appointment</h4>
+  <form method="POST" action="{{ url_for('book_appointment') }}">
+    {{ form.hidden_tag() }}
+
+    <!-- Doctor Name Field -->
+    <div class="form-group">
+      {{ form.doctor_name.label(class="form-label") }} {{
+      form.doctor_name(class="form-control", placeholder="e.g., Dr. Smith") }}
+      <small class="form-text text-muted"
+        >Enter the full name of the doctor.</small
+      >
+    </div>
+
+    <!-- Date Field -->
+    <div class="form-group">
+      {{ form.date.label(class="form-label") }} {{
+      form.date(class="form-control", placeholder="YYYY-MM-DD") }}
+      <small class="form-text text-muted"
+        >Enter the date in the format YYYY-MM-DD (e.g., 2023-10-25).</small
+      >
+    </div>
+
+    <!-- Time Field -->
+    <div class="form-group">
+      {{ form.time.label(class="form-label") }} {{
+      form.time(class="form-control", placeholder="HH:MM") }}
+      <small class="form-text text-muted"
+        >Enter the time in 24-hour format (e.g., 14:30 for 2:30 PM).</small
+      >
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary mt-3">Book Appointment</button>
+  </form>
+
+  <!-- Appointments Table -->
+  <h4 class="mt-4">Your Appointments</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Doctor</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for appointment in appointments %}
+      <tr>
+        <td>{{ appointment.doctor_name }}</td>
+        <td>{{ appointment.date }}</td>
+        <td>{{ appointment.time.strftime("%H:%M") }}</td>
+        <td>{{ appointment.status }}</td>
+      </tr>
+      {% else %}
+      <tr>
+        <td colspan="4">No appointments found.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
